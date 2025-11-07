@@ -1,43 +1,31 @@
 Instrucciones para configurar el proyecto NUAM (con MySQL)
-Primer paso:
 
-Instalar MySQL Server (se recomienda la versión 8.0, aunque otras versiones también funcionan).
-Instalar MySQL Workbench (recordar la contraseña del usuario root durante la instalación).
+1) Instalacion de MYSQL
 
-Segundo paso:
+- Instalar MySQL Server (se recomienda la versión 8.0, aunque otras versiones también funcionan).
+- Instalar MySQL Workbench (recordar la contraseña del usuario root durante la instalación).
 
-Clonar el repositorio del proyecto desde GitHub.
-Crear y activar el entorno virtual.
+2) Activacion Proyecto
 
-Instalar las dependencias:
-pip install -r requirements.txt
+- Clonar el repositorio del proyecto desde GitHub.
+- Crear y activar el entorno virtual.
+- Instalar las dependencias: pip install -r requirements.txt
 
-Tercer paso:
+3) Creacion de BD
 
-Ejecutar el siguiente comando en la terminal (dentro de la carpeta del proyecto) para crear la base de datos y el usuario configurado:
-mysql -u root -p < db_setup.sql
+- Ejecutar el siguiente comando en la terminal (dentro de la carpeta del proyecto): mysql -u root -p < db_setup.sql
+- Esto creará la base de datos nuam, el usuario nuamuser y asignará los permisos necesarios.
 
-Esto creará la base de datos nuam, el usuario nuamuser y asignará los permisos necesarios.
+4) Aplicar Migraciones
 
-Cuarto paso:
+- Aplicar las migraciones de Django: python manage.py migrate
+- No es necesario ejecutar makemigrations, ya que las migraciones están incluidas en el repositorio.
 
-Aplicar las migraciones de Django:
-python manage.py migrate
+5) Ejecutar Proyecto:
 
-No es necesario ejecutar makemigrations, ya que las migraciones están incluidas en el repositorio.
+- Ejecutar el servidor de desarrollo: python manage.py runserver
+- Luego, acceder al proyecto desde el navegador en: http://127.0.0.1:8000/
 
-Quinto paso:
+6) Visualizar BD:
 
-Ejecutar el servidor de desarrollo:
-python manage.py runserver
-
-Luego, acceder al proyecto desde el navegador en:
-http://127.0.0.1:8000/
-
-Sexto paso:
-
-Abrir MySQL Workbench, conectarse a localhost:3306 con el usuario root,
-y verificar que la base de datos nuam se haya creado correctamente.
-
-▶️ 7. Ejecutar el servidor
-python manage.py runserver
+- Abrir MySQL Workbench, conectarse a localhost:3306 con el usuario root, y verificar que la base de datos nuam se haya creado correctamente.
