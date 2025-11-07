@@ -1,0 +1,4 @@
+CREATE DATABASE IF NOT EXISTS nuam CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE USER IF NOT EXISTS 'nuamuser'@'localhost' IDENTIFIED BY 'NuamPass123';
+GRANT ALL PRIVILEGES ON nuam.* TO 'nuamuser'@'localhost';
+FLUSH PRIVILEGES;

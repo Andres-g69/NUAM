@@ -1,6 +1,7 @@
 # Entornos virtuales
 environment/
 venv/
+.env
 
 # Archivos de Python compilados
 __pycache__/
@@ -10,18 +11,34 @@ __pycache__/
 # Base de datos local 
 db.sqlite3
 
-# Migraciones 
+# Migraciones NO ignorarlas 
 # myapp/migrations/
 
-# Archivos de configuración del editor/IDE
+# Editor / IDE
 .vscode/
 .idea/
-*.swp
 *.swo
+*.swp
 
 # Archivos temporales y del sistema
 *.log
 .DS_Store
 Thumbs.db
+
+# Test / packaging
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+dist/
+build/
+
+# Node (si en algún momento hay frontend)
+node_modules/
+
+# Mac / Windows specific
+ehthumbs.db
+Icon?
+
 
 
