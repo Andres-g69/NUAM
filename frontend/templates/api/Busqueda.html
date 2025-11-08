@@ -1,0 +1,126 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NUAM - Búsqueda Avanzada</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo">NUAM - Mantenedor</div>
+    <nav class="nav">
+      <a href="{% url 'dashboard' %}">🏠 Panel</a>
+      <a href="{% url 'gestion' %}">🧾 Gestión de calificaciones</a>
+      <a href="{% url 'carga' %}">📂 Carga masiva</a>
+      <a href="{% url 'busqueda' %}" class="active">🔎 Consultas avanzadas</a>
+      <a href="{% url 'adminpanel' %}">⚙️ Administración</a>
+    </nav>
+    <div class="user-info">Usuario: <strong>Analista</strong></div>
+  </aside>
+
+  <main class="main">
+    <header class="header">
+      <input class="search" placeholder="Búsqueda rápida..." />
+      <div class="header-right">
+        <span class="workspace">Espacio de trabajo</span>
+        <div class="avatar"></div>
+      </div>
+    </header>
+
+    <section class="content">
+      <div>
+        <div class="panel mb">
+          <div class="panel-header">
+            <div>
+              <strong>Búsqueda Avanzada</strong>
+              <div class="text-muted small">Filtra calificaciones, instrumentos, RUT y más</div>
+            </div>
+            <button class="btn primary">Buscar</button>
+          </div>
+
+          <form>
+            <div class="form-row mb">
+              <div>
+                <label>RUT</label>
+                <input type="text" placeholder="11.111.111-1" />
+              </div>
+              <div>
+                <label>Instrumento</label>
+                <input type="text" placeholder="Nombre del instrumento" />
+              </div>
+            </div>
+
+            <div class="form-row mb">
+              <div>
+                <label>Tipo</label>
+                <select>
+                  <option value="">Todos</option>
+                  <option>DJ1948</option>
+                  <option>Factor</option>
+                  <option>Manual</option>
+                </select>
+              </div>
+
+              <div>
+                <label>Estado</label>
+                <select>
+                  <option value="">Todos</option>
+                  <option>Vigente</option>
+                  <option>Eliminada</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row mb">
+              <div>
+                <label>Fecha desde</label>
+                <input type="date" />
+              </div>
+              <div>
+                <label>Fecha hasta</label>
+                <input type="date" />
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <strong>Resultados</strong>
+              <div class="text-muted small">Mostrando coincidencias</div>
+            </div>
+            <button class="btn ghost">Exportar</button>
+          </div>
+
+          <table class="table mt">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Instrumento</th>
+                <th>RUT</th>
+                <th>Tipo</th>
+                <th>Monto</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1441</td>
+                <td>Acciones Z</td>
+                <td>12.345.678-5</td>
+                <td>DJ1948</td>
+                <td>$500.000</td>
+                <td>2025-10-14</td>
+                <td>Vigente</td>
+                <td><a class="btn ghost" href="{% url 'gestion' %}">Ver</a></td>
+              </tr>
+
+              <tr>
+                <td>1422</

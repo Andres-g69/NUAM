@@ -1,0 +1,125 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NUAM - Carga Masiva</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+</head>
+<body>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="logo">NUAM - Mantenedor</div>
+      <nav class="nav">
+        <a href="{% url 'dashboard' %}">🏠 Panel</a>
+        <a href="{% url 'gestion' %}">🧾 Gestión de calificaciones</a>
+        <a href="{% url 'carga' %}" class="active">📂 Carga masiva</a>
+        <a href="{% url 'busqueda' %}">🔎 Consultas avanzadas</a>
+        <a href="{% url 'adminpanel' %}">⚙️ Administración</a>
+      </nav>
+      <div class="user-info">Usuario: <strong>Analista</strong></div>
+    </aside>
+
+    <main class="main">
+      <header class="header">
+        <input class="search" placeholder="Buscar en cargas..." />
+        <div class="header-right">
+          <span class="workspace">Espacio de trabajo</span>
+          <div class="avatar"></div>
+        </div>
+      </header>
+
+      <section class="content">
+        <div>
+          <div class="panel mb">
+            <div class="panel-header">
+              <div>
+                <strong>Carga Masiva</strong>
+                <div class="text-muted small">Archivos DJ1948 y Factores</div>
+              </div>
+              <button class="btn primary">Procesar archivo</button>
+            </div>
+
+            <form>
+              <div class="mb">
+                <label>Archivo a cargar</label>
+                <input type="file" accept=".csv,.xlsx" />
+                <div class="text-muted small">Formatos aceptados: CSV / XLSX</div>
+              </div>
+
+              <div class="mb">
+                <label>Modo de validación</label>
+                <select>
+                  <option value="partial">Permitir parciales (aceptar válidos)</option>
+                  <option value="strict">Modo estricto (si hay error, rechazar todo)</option>
+                </select>
+              </div>
+
+              <div class="mb">
+                <label>Tipo de carga</label>
+                <select>
+                  <option>DJ1948 - Montos</option>
+                  <option>Factores</option>
+                </select>
+              </div>
+            </form>
+
+          </div>
+
+          <div class="panel">
+            <strong>Historial de Cargas</strong>
+            <div class="text-muted small">Últimas operaciones realizadas</div>
+
+            <table class="table mt">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Archivo</th>
+                  <th>Usuario</th>
+                  <th>Fecha</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>305</td>
+                  <td>factores_oct.xlsx</td>
+                  <td>analista2</td>
+                  <td>2025-10-15</td>
+                  <td class="text-muted">Con errores</td>
+                </tr>
+                <tr>
+                  <td>302</td>
+                  <td>dj1948_sep.csv</td>
+                  <td>analista1</td>
+                  <td>2025-10-14</td>
+                  <td>Completado</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <aside>
+          <div class="panel">
+            <strong>Reglas de validación</strong>
+            <ul class="text-muted small">
+              <li>RUT obligatorio</li>
+              <li>Montos numéricos</li>
+              <li>Fecha en formato YYYY-MM-DD</li>
+              <li>Estructura de columnas válida</li>
+            </ul>
+          </div>
+        </aside>
+      </section>
+
+      <footer class="footer">
+        <small class="text-muted">NUAM · Carga Masiva</small>
+      </footer>
+    </main>
+  </div>
+
+</body>
+</html>

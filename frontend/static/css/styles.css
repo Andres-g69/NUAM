@@ -1,0 +1,224 @@
+/* ==========================
+   NUAM - Estilos Globales
+   ========================== */
+
+:root {
+  --bg: #f7f7f9;
+  --panel: #ffffff;
+  --border: #e3e3e7;
+  --text: #333;
+  --muted: #777;
+  --primary: #2a6ef2;
+  --primary-hover: #1f57c8;
+  --danger: #d9534f;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ==========================
+   Layout General
+   ========================== */
+.app {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+/* ==========================
+   Sidebar
+   ========================== */
+.sidebar {
+  width: 250px;
+  background: #fff;
+  border-right: 1px solid var(--border);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.nav a {
+  display: block;
+  padding: 10px 0;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav a.active {
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.user-info {
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+}
+
+/* ==========================
+   Main Content
+   ========================== */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  height: 60px;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.search {
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 280px;
+}
+
+.avatar {
+  width: 35px;
+  height: 35px;
+  background: #ccc;
+  border-radius: 50%;
+}
+
+/* ==========================
+   Paneles / Cards
+   ========================== */
+.content {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 20px;
+  padding: 20px;
+}
+
+.panel {
+  background: var(--panel);
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.card-number {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.card-number.danger {
+  color: var(--danger);
+}
+
+/* ==========================
+   Tablas
+   ========================== */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table th, .table td {
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+/* ==========================
+   Formularios
+   ========================== */
+label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.form-row > div {
+  flex: 1;
+}
+
+/* ==========================
+   Botones
+   ========================== */
+.btn {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn.primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn.primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--muted);
+}
+
+/* ==========================
+   Footer
+   ========================== */
+.footer {
+  padding: 10px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  background: #fafafa;
+  font-size: 12px;
+}

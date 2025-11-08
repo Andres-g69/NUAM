@@ -1,0 +1,126 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NUAM - Gestión de Calificaciones</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+</head>
+<body>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="logo">NUAM - Mantenedor</div>
+      <nav class="nav">
+        <a href="{% url 'dashboard' %}">🏠 Panel</a>
+        <a href="{% url 'gestion' %}" class="active">🧾 Gestión de calificaciones</a>
+        <a href="{% url 'carga' %}">📂 Carga masiva</a>
+        <a href="{% url 'busqueda' %}">🔎 Consultas avanzadas</a>
+        <a href="{% url 'adminpanel' %}">⚙️ Administración</a>
+      </nav>
+      <div class="user-info">Usuario: <strong>Analista</strong></div>
+    </aside>
+
+    <main class="main">
+      <header class="header">
+        <input class="search" placeholder="Buscar registros..." />
+        <div class="header-right">
+          <span class="workspace">Espacio de trabajo</span>
+          <div class="avatar"></div>
+        </div>
+      </header>
+
+      <section class="content">
+        <div>
+          <div class="panel mb">
+            <div class="panel-header">
+              <div>
+                <strong>Gestión de Calificaciones</strong>
+                <div class="text-muted small">Crear, editar o eliminar calificaciones</div>
+              </div>
+              <button class="btn primary">Guardar</button>
+            </div>
+
+            <form>
+              <div class="form-row mb">
+                <div>
+                  <label>Instrumento</label>
+                  <input type="text" placeholder="Ej: Bonos ABC" />
+                </div>
+                <div>
+                  <label>Tipo</label>
+                  <select>
+                    <option>DJ1948</option>
+                    <option>Factor</option>
+                    <option>Manual</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row mb">
+                <div>
+                  <label>Monto</label>
+                  <input type="text" placeholder="Ej: 1200000" />
+                </div>
+                <div>
+                  <label>Fecha</label>
+                  <input type="date" />
+                </div>
+              </div>
+
+              <div class="mb">
+                <label>Comentario</label>
+                <textarea rows="3"></textarea>
+              </div>
+            </form>
+          </div>
+
+          <div class="panel">
+            <strong>Historial de Cambios</strong>
+            <div class="text-muted small">Últimas modificaciones realizadas</div>
+
+            <table class="table mt">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Usuario</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2025-10-15</td>
+                  <td>analista1</td>
+                  <td>Modificó</td>
+                </tr>
+                <tr>
+                  <td>2025-10-14</td>
+                  <td>admin</td>
+                  <td>Creó</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <aside>
+          <div class="panel">
+            <strong>Validaciones</strong>
+            <ul class="text-muted small">
+              <li>RUT debe estar en formato válido</li>
+              <li>Monto numérico mayor a 0</li>
+              <li>Fecha obligatoria</li>
+            </ul>
+          </div>
+        </aside>
+      </section>
+
+      <footer class="footer">
+        <small class="text-muted">NUAM · Gestión de Calificaciones</small>
+      </footer>
+    </main>
+  </div>
+
+</body>
+</html>
