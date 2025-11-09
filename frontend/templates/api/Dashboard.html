@@ -1,127 +1,59 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NUAM - Dashboard</title>
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Principal | NUAM</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-
-  <div class="app">
-    <aside class="sidebar">
-      <div class="logo">NUAM - Mantenedor</div>
-      <nav class="nav">
-        <a href="{% url 'dashboard' %}" class="active">🏠 Panel</a>
-        <a href="{% url 'gestion' %}">🧾 Gestión de calificaciones</a>
-        <a href="{% url 'carga' %}">📂 Carga masiva</a>
-        <a href="{% url 'busqueda' %}">🔎 Consultas avanzadas</a>
-        <a href="{% url 'adminpanel' %}">⚙️ Administración</a>
+  <div class="dashboard-container">
+    <header class="navbar">
+      <div class="navbar-logo">
+        <img src="{% static 'css/logo_nuam.png' %}" alt="NUAM Logo">
+        <span></span>
+      </div>
+      <nav class="navbar-links">
+        <a href="{% url 'dashboard' %}" class="active">Inicio</a>
+        <a href="{% url 'gestion' %}">Gestión</a>
+        <a href="{% url 'carga' %}">Carga</a>
+        <a href="{% url 'busqueda' %}">Búsqueda</a>
+        <a href="{% url 'adminpanel' %}">Administración</a>
       </nav>
-      <div class="user-info">Usuario: <strong>Analista</strong></div>
-    </aside>
+      <div class="navbar-user">
+        <span>👤 {{ user.username }}</span>
+        <a href="{% url 'logout' %}" class="logout-btn">Cerrar sesión</a>
+      </div>
+    </header>
 
-    <main class="main">
-      <header class="header">
-        <input class="search" placeholder="Buscar por instrumento, RUT o fecha..." />
-        <div class="header-right">
-          <span class="workspace">Espacio de trabajo</span>
-          <div class="avatar"></div>
-        </div>
-      </header>
+    <main class="dashboard-content">
+      <h1>Bienvenido, {{ user.username }} 👋</h1>
+      <p>Selecciona una opción del menú para comenzar.</p>
 
-      <section class="content">
-        <div>
-          <div class="panel mb">
-            <div class="panel-header">
-              <div>
-                <strong>Resumen</strong>
-                <div class="text-muted">Actividad reciente</div>
-              </div>
-              <a href="{% url 'gestion' %}" class="btn primary">Nueva calificación</a>
-            </div>
-
-            <div class="cards">
-              <div class="card">
-                <div class="text-muted small">Calificaciones hoy</div>
-                <div class="card-number">1.248</div>
-              </div>
-
-              <div class="card">
-                <div class="text-muted small">Cargas pendientes</div>
-                <div class="card-number">2</div>
-              </div>
-
-              <div class="card">
-                <div class="text-muted small">Errores en última carga</div>
-                <div class="card-number danger">3</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="panel">
-            <div class="panel-header">
-              <div>
-                <strong>Últimas calificaciones</strong>
-                <div class="text-muted small">Mostrando 10 registros</div>
-              </div>
-              <button class="btn ghost">Exportar a Excel</button>
-            </div>
-
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Instrumento</th>
-                  <th>Tipo</th>
-                  <th>Monto</th>
-                  <th>Fecha</th>
-                  <th>Estado</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1145</td>
-                  <td>Acciones XYZ</td>
-                  <td>DJ1948</td>
-                  <td>$1.200.000</td>
-                  <td>2025-10-14</td>
-                  <td>Vigente</td>
-                  <td><a href="{% url 'gestion' %}" class="btn ghost">Editar</a></td>
-                </tr>
-                <tr>
-                  <td>1123</td>
-                  <td>Bonos ABC</td>
-                  <td>Factor</td>
-                  <td>$50.000</td>
-                  <td>2025-10-13</td>
-                  <td class="text-muted">Eliminada</td>
-                  <td><a href="{% url 'gestion' %}" class="btn ghost">Ver</a></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <aside>
-          <div class="panel">
-            <strong>Atajos</strong>
-            <ul class="text-muted small">
-              <li><a href="{% url 'gestion' %}">Crear calificación</a></li>
-              <li><a href="{% url 'carga' %}">Carga masiva DJ1948</a></li>
-              <li>Generar reporte</li>
-            </ul>
-          </div>
-        </aside>
-      </section>
-
-      <footer class="footer">
-        <small class="text-muted">NUAM · Dashboard · Proyecto Integrado</small>
-      </footer>
+      <div class="dashboard-cards">
+        <a href="{% url 'gestion' %}" class="card">
+          <h3>Gestión</h3>
+          <p>Administra usuarios, registros o configuraciones.</p>
+        </a>
+        <a href="{% url 'carga' %}" class="card">
+          <h3>Carga</h3>
+          <p>Sube datos, documentos o archivos al sistema.</p>
+        </a>
+        <a href="{% url 'busqueda' %}" class="card">
+          <h3>Búsqueda</h3>
+          <p>Consulta y filtra información registrada.</p>
+        </a>
+        <a href="{% url 'adminpanel' %}" class="card">
+          <h3>Administración</h3>
+          <p>Configura opciones avanzadas del sistema.</p>
+        </a>
+      </div>
     </main>
-  </div>
 
+    <footer class="dashboard-footer">
+      <p>© 2025 NUAM. Todos los derechos reservados.</p>
+    </footer>
+  </div>
 </body>
 </html>
