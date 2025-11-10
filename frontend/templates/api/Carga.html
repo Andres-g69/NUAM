@@ -4,97 +4,88 @@
 {% block title %}Carga Masiva{% endblock %}
 
 {% block content %}
-
 <div class="dashboard-content">
 
     <h1>Carga Masiva</h1>
     <p class="text-muted small">Archivos DJ1948 y Factores</p>
 
-    <!-- CARD FORMULARIO -->
+    <!-- FORMULARIO DE CARGA -->
     <div class="card" style="max-width: 900px; width: 100%; text-align: left;">
-
-        <h3 style="margin-bottom: 5px;">Carga Masiva</h3>
-        <p class="text-muted small" style="margin-bottom: 15px;">Selecciona un archivo para procesar</p>
-
-        <form>
-
+        <form id="cargaForm" enctype="multipart/form-data">
             <div class="form-group" style="margin-bottom: 20px;">
                 <label>Archivo a cargar</label>
-                <input type="file" accept=".csv,.xlsx" style="width: 100%; margin-top: 5px;">
-                <div class="text-muted small" style="margin-top: 5px;">
-                    Formatos aceptados: CSV / XLSX
-                </div>
+                <input type="file" name="archivo" accept=".csv,.xlsx" required style="width: 100%; margin-top:5px;">
             </div>
-
             <div class="form-group" style="margin-bottom: 20px;">
-                <label>Modo de validación</label>
-                <select style="width: 100%; padding: 10px; margin-top: 5px;">
-                    <option value="partial">Permitir parciales</option>
-                    <option value="strict">Modo estricto</option>
-                </select>
-            </div>
-
-            <div class="form-group" style="margin-bottom: 25px;">
                 <label>Tipo de carga</label>
-                <select style="width: 100%; padding: 10px; margin-top: 5px;">
-                    <option>DJ1948 - Montos</option>
-                    <option>Factores</option>
+                <select name="tipo_archivo" style="width: 100%; padding: 10px; margin-top:5px;">
+                    <option value="DJ1948">DJ1948 - Montos</option>
+                    <option value="FACTORES">Factores</option>
+                    <option value="OTRO">Otro</option>
                 </select>
             </div>
-
-            <button class="btn" style="background:#004aad; color:white; padding:10px 18px; border-radius:6px;">
+            <button class="btn" type="submit" style="background:#004aad; color:white; padding:10px 18px; border-radius:6px;">
                 Procesar archivo
             </button>
-
         </form>
     </div>
 
     <!-- HISTORIAL DE CARGAS -->
-    <div class="card" style="max-width: 900px; width: 100%; margin-top: 25px; text-align: left;">
-
-        <h3 style="margin-bottom: 5px;">Historial de Cargas</h3>
-        <p class="text-muted small">Últimas operaciones realizadas</p>
-
-        <div style="overflow-x: auto; margin-top: 15px;">
-
-            <table class="table" style="width: 100%; border-collapse: collapse;">
-
+    <div class="card" style="max-width:900px; width:100%; margin-top:25px;">
+        <h3>Historial de Cargas</h3>
+        <div style="overflow-x:auto; margin-top:10px;">
+            <table class="table">
                 <thead>
-                    <tr style="background:#003366; color:white; text-align:left;">
-                        <th style="padding: 10px;">ID</th>
-                        <th style="padding: 10px;">Archivo</th>
-                        <th style="padding: 10px;">Usuario</th>
-                        <th style="padding: 10px;">Fecha</th>
-                        <th style="padding: 10px;">Estado</th>
+                    <tr style="background:#003366; color:white;">
+                        <th>ID</th>
+                        <th>Archivo</th>
+                        <th>Usuario</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
                     </tr>
                 </thead>
-
-                <tbody>
-
-                    <tr style="border-bottom: 1px solid #ddd;">
-                        <td style="padding: 10px;">305</td>
-                        <td style="padding: 10px;">factores_oct.xlsx</td>
-                        <td style="padding: 10px;">analista2</td>
-                        <td style="padding: 10px;">2025-10-15</td>
-                        <td style="padding: 10px;" class="text-muted">Con errores</td>
+                <tbody id="historialCargas">
+                    {% for carga in cargas %}
+                    <tr>
+                        <td>{{ carga.id }}</td>
+                        <td>{{ carga.archivo.name|slice:"-30:" }}</td>
+                        <td>{{ carga.usuario.username }}</td>
+                        <td>{{ carga.fecha_carga|date:"Y-m-d H:i" }}</td>
+                        <td>{{ carga.estado }}</td>
                     </tr>
-
-                    <tr style="border-bottom: 1px solid #ddd;">
-                        <td style="padding: 10px;">302</td>
-                        <td style="padding: 10px;">dj1948_sep.csv</td>
-                        <td style="padding: 10px;">analista1</td>
-                        <td style="padding: 10px;">2025-10-14</td>
-                        <td style="padding: 10px;">Completado</td>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5">No hay cargas registradas.</td>
                     </tr>
-
+                    {% endfor %}
                 </tbody>
-
             </table>
-
         </div>
-
     </div>
-
 </div>
 
+<script>
+document.getElementById('cargaForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+
+    const response = await fetch("{% url 'api:archivo-carga-procesar' %}", {
+        method: "POST",
+        headers: {"X-CSRFToken": "{{ csrf_token }}"},
+        body: formData
+    });
+
+    const data = await response.json();
+
+    if(data.success) {
+        alert("✅ Archivo cargado correctamente!");
+        location.reload();  // recarga la página para actualizar historial
+    } else {
+        alert("❌ Error: " + (data.error || 'No se pudo cargar'));
+    }
+});
+</script>
 {% endblock %}
+
+
+

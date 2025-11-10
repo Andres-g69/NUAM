@@ -11,7 +11,7 @@
 
     <!-- CARD DE FILTROS -->
     <div class="card" style="max-width: 900px; width: 100%; text-align: left;">
-        <form method="GET" action="{% url 'calificacion_read_view' %}">
+        <form method="GET" action="{% url 'api:calificacion_read_view' %}">
             <div style="margin-bottom: 15px;">
                 <label>RUT</label>
                 <input type="text" name="rut" placeholder="11.111.111-1"
@@ -68,7 +68,7 @@
                             <td style="padding: 10px;">{{ c.fecha|date:"d/m/Y" }}</td>
                             <td style="text-align:center;">
                                 <a class="btn ghost"
-                                   href="{% url 'calificacion_update_view' c.id %}"
+                                   href="{% url 'api:calificacion_update_view' c.id %}"
                                    style="border:1px solid #003366; color:#003366; padding:4px 10px; border-radius:6px;">
                                     Ver
                                 </a>

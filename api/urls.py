@@ -2,6 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
 
+app_name = 'api'
 # =============================
 # ROUTER API REST PRINCIPAL
 # =============================
@@ -16,6 +17,7 @@ router.register(r'errores', views.CargaErrorViewSet, basename='errores')
 router.register(r'registros', views.CargaRegistroViewSet, basename='registros')
 router.register(r'auditoria', views.AuditoriaViewSet, basename='auditoria')
 
+router = DefaultRouter()
 
 
 urlpatterns = [
@@ -25,5 +27,7 @@ urlpatterns = [
     path('calificaciones/<int:id>/eliminar/', views.calificacion_delete_view, name='calificacion_delete_view'),
     path('busqueda/', views.calificacion_read_view, name='calificacion_read_view'),
     path('', include(router.urls)),
+    path('carga/', views.carga_view, name='carga'),
+    path('api/carga/procesar/', views.procesar_archivo, name='archivo-carga-procesar'),
 ]
 

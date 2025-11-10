@@ -11,7 +11,7 @@
         <form method="POST">
             {% csrf_token %}
             <button type="submit" class="btn" style="background:red; color:white;">Eliminar</button>
-            <a href="{% url 'calificacion_list_view' %}" class="btn" style="background:#777; margin-left:10px;">Cancelar</a>
+            <a href="{% url 'api:calificacion_list_view' %}" class="btn" style="background:#777; margin-left:10px;">Cancelar</a>
         </form>
     </div>
 </div>

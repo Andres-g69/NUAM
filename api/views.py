@@ -1,13 +1,14 @@
-import re
+import re, os
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 
 # =============================
 # IMPORTS DE MODELOS Y SERIALIZERS
@@ -211,7 +212,7 @@ def calificacion_create_view(request):
             )
 
             messages.success(request, "✅ Calificación creada correctamente.")
-            return redirect('calificacion_list_view')
+            return redirect('api:calificacion_list_view')
         else:
             messages.error(request, "❌ Error al crear la calificación. Verifique los datos.")
     else:
@@ -238,7 +239,7 @@ def calificacion_update_view(request, id):
             )
 
             messages.success(request, "✏️ Calificación actualizada correctamente.")
-            return redirect('calificacion_list_view')
+            return redirect('api:calificacion_list_view')
         else:
             messages.error(request, "❌ Error al actualizar la calificación.")
     else:
@@ -264,7 +265,7 @@ def calificacion_delete_view(request, id):
         )
         calificacion.delete()
         messages.success(request, "🗑️ Calificación eliminada correctamente.")
-        return redirect('calificacion_list_view')
+        return redirect('api:calificacion_list_view')
 
     return render(request, 'calificaciones/confirmar_eliminacion.html', {'calificacion': calificacion})
 
@@ -284,6 +285,26 @@ def calificacion_read_view(request):
 
 # 📤 CARGA MASIVA HTML
 @login_required
-def carga_masiva_view(request):
+def carga_view(request):
     cargas = ArchivoCarga.objects.all().order_by('-fecha_carga')
     return render(request, 'api/Carga.html', {'cargas': cargas})
+
+# API para procesar la carga
+@api_view(['POST'])
+@login_required
+def procesar_archivo(request):
+    archivo = request.FILES.get('archivo')
+    tipo = request.POST.get('tipo_archivo', 'OTRO')
+
+    if not archivo:
+        return Response({'error': 'Debe subir un archivo'}, status=400)
+
+    carga = ArchivoCarga.objects.create(
+        archivo=archivo,
+        usuario=request.user,
+        tipo_archivo=tipo,
+        estado='Cargado'  # o "Procesando" si vas a implementar procesamiento
+    )
+
+    serializer = ArchivoCargaSerializer(carga)
+    return Response({'success': True, 'carga': serializer.data})

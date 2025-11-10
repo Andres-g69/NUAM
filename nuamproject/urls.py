@@ -107,7 +107,7 @@ urlpatterns = [
     path('carga/', carga_view, name='carga'),
     path('busqueda/', busqueda_view, name='busqueda'),
     path('adminpanel/', admin_view, name='adminpanel'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Archivos estáticos en modo DEBUG
 if settings.DEBUG:

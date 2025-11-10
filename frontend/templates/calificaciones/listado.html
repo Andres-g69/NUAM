@@ -6,7 +6,7 @@
     <h1>Calificaciones Tributarias</h1>
     <p>Listado completo de calificaciones registradas en el sistema.</p>
 
-    <a href="{% url 'calificacion_create_view' %}" class="btn" 
+    <a href="{% url 'api:calificacion_create_view' %}" class="btn" 
        style="margin-bottom: 20px; background:#003366; color:white;">
         + Nueva Calificación
     </a>
@@ -35,10 +35,10 @@
                     <td>{{ c.estado }}</td>
                     <td>{{ c.fecha|date:"d/m/Y" }}</td>
                     <td style="text-align:center;">
-                        <a href="{% url 'calificacion_update_view' c.id %}" 
+                        <a href="{% url 'api:calificacion_update_view' c.id %}" 
                            class="btn" style="padding:6px 10px;">Editar</a>
 
-                        <a href="{% url 'calificacion_delete_view' c.id %}" 
+                        <a href="{% url 'api:calificacion_delete_view' c.id %}" 
                            class="btn" style="padding:6px 10px; background:#e74c3c;">
                            Eliminar
                         </a>
