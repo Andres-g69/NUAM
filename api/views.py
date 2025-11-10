@@ -65,12 +65,14 @@ class FactorConversionViewSet(viewsets.ModelViewSet):
 
 # --- CALIFICACIONES TRIBUTARIAS ---
 class CalificacionTributariaViewSet(viewsets.ModelViewSet):
+
+    # ✅ eliminamos instrumento y factor porque ya NO son FK
     queryset = CalificacionTributaria.objects.select_related(
-        "instrumento", "factor", "creado_por", "archivo_origen"
+        "creado_por", "archivo_origen"
     ).all().order_by("-creado_en")
+
     serializer_class = CalificacionTributariaSerializer
 
-    # Crear historial automáticamente
     def perform_create(self, serializer):
         obj = serializer.save(creado_por=self.request.user)
         HistorialCalificacion.objects.create(
@@ -101,6 +103,7 @@ class CalificacionTributariaViewSet(viewsets.ModelViewSet):
     # --- BUSQUEDA ---
     @action(detail=False, methods=["get"], url_path="buscar")
     def buscar(self, request):
+
         rut = request.GET.get("rut")
         instrumento = request.GET.get("instrumento")
         tipo = request.GET.get("tipo")
@@ -113,7 +116,8 @@ class CalificacionTributariaViewSet(viewsets.ModelViewSet):
         if rut:
             qs = qs.filter(rut__icontains=rut)
         if instrumento:
-            qs = qs.filter(instrumento__nombre__icontains=instrumento)
+            # ✅ ahora es texto, no FK
+            qs = qs.filter(instrumento__icontains=instrumento)
         if tipo:
             qs = qs.filter(tipo=tipo)
         if estado:
@@ -152,7 +156,6 @@ class ArchivoCargaViewSet(viewsets.ModelViewSet):
         )
 
         try:
-            # Aquí podrías implementar la lógica real de procesamiento
             carga.estado = "Completado"
             carga.mensaje = "Archivo procesado correctamente"
             carga.save()
@@ -190,8 +193,13 @@ class AuditoriaViewSet(viewsets.ReadOnlyModelViewSet):
 # 📄 LISTAR
 @login_required
 def calificacion_list_view(request):
-    calificaciones = CalificacionTributaria.objects.select_related("instrumento", "factor").all()
-    return render(request, 'calificaciones/listado.html', {'calificaciones': calificaciones})
+
+    # ✅ corregido: no más select_related instrumento/factor
+    calificaciones = CalificacionTributaria.objects.all()
+
+    return render(request, 'calificaciones/listado.html', {
+        'calificaciones': calificaciones
+    })
 
 
 # ➕ CREAR
@@ -270,7 +278,7 @@ def calificacion_delete_view(request, id):
     return render(request, 'calificaciones/confirmar_eliminacion.html', {'calificacion': calificacion})
 
 
-# 🔍 BUSCAR (READ simplificado)
+# 🔍 BUSCAR
 @login_required
 def calificacion_read_view(request):
     rut = request.GET.get('rut', '').strip()
@@ -280,7 +288,7 @@ def calificacion_read_view(request):
         rut_limpio = re.sub(r'[\.\-]', '', rut)
         calificaciones = calificaciones.filter(rut__iregex=r'{}|{}'.format(rut, rut_limpio))
 
-    return render(request, 'api/busqueda.html', {'calificaciones': calificaciones})
+    return render(request, 'api/Busqueda.html', {'calificaciones': calificaciones})
 
 
 # 📤 CARGA MASIVA HTML
@@ -289,7 +297,7 @@ def carga_view(request):
     cargas = ArchivoCarga.objects.all().order_by('-fecha_carga')
     return render(request, 'api/Carga.html', {'cargas': cargas})
 
-# API para procesar la carga
+
 @api_view(['POST'])
 @login_required
 def procesar_archivo(request):
@@ -303,7 +311,7 @@ def procesar_archivo(request):
         archivo=archivo,
         usuario=request.user,
         tipo_archivo=tipo,
-        estado='Cargado'  # o "Procesando" si vas a implementar procesamiento
+        estado='Cargado'
     )
 
     serializer = ArchivoCargaSerializer(carga)

@@ -94,11 +94,11 @@ class CalificacionTributaria(models.Model):
         (TIPO_MANUAL, 'Manual'),
     ]
 
-    instrumento = models.ForeignKey(Instrumento, on_delete=models.PROTECT, related_name='calificaciones')
+    instrumento = models.CharField(max_length=255, blank=True, null=True)
     rut = models.CharField(max_length=15, blank=True, null=True)
     tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
     monto = models.DecimalField(max_digits=18, decimal_places=2)
-    factor = models.ForeignKey(FactorConversion, on_delete=models.SET_NULL, null=True, blank=True)
+    factor = models.CharField(max_length=255, blank=True, null=True)
     fecha = models.DateField()
     estado = models.CharField(max_length=30, default='Vigente')
     comentario = models.TextField(blank=True)
@@ -109,7 +109,7 @@ class CalificacionTributaria(models.Model):
     archivo_origen = models.ForeignKey(ArchivoCarga, on_delete=models.SET_NULL, null=True, blank=True, related_name='calificaciones_generadas')
 
     def __str__(self):
-        return f"Calificacion {self.id} - {self.instrumento.nombre} - {self.tipo}"
+        return f"Calificacion {self.id} - {self.instrumento} - {self.tipo}"
 
 
 # Historial de calificaciones (auditoría específica)

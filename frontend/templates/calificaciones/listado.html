@@ -30,7 +30,7 @@
                 {% for c in calificaciones %}
                 <tr style="border-bottom: 1px solid #eee;">
                     <td style="padding: 12px;">{{ c.rut }}</td>
-                    <td>{{ c.instrumento.nombre }}</td>
+                    <td>{{ c.instrumento }}</td>
                     <td>{{ c.tipo }}</td>
                     <td>{{ c.estado }}</td>
                     <td>{{ c.fecha|date:"d/m/Y" }}</td>
