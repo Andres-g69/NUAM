@@ -1,3 +1,21 @@
+INSTRUCCIONES DEL FUNCIONAMIENTO DEL SISTEMA NUAM
+Bastian Cabello y Andrés González
+
+
+Instalacion de programa
+1) Tener instalado GIT
+2)  clonar el repositorio en carpeta deseada:
+- git clone https://github.com/Andres-g69/NUAM.git
+
+3) Entrar en el proyecto y crear entorno virtual y activarlo:
+- cd NUAM
+- python3 -m venv env
+- source env/bin/activate
+4) Instalar requerimientos del sistema:
+- pip install -r requirements.txt
+
+
+
 Instrucciones para configurar el proyecto NUAM (con MySQL)
 
 1) Instalacion de MYSQL
