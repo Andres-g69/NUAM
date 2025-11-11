@@ -32,10 +32,19 @@ Activa el entorno virtual:
 
 3️⃣ Instalar las dependencias
 
+Antes de instalar las librerias se aplican los siguientes comandos requeridos:
+
+- sudo apt update (colocar su contraseña de dispositivo si la requiere)
+- sudo apt install mysql-server
+- sudo apt install pkg-config libmysqlclient-dev build-essential (instala paquetees esenciales para mysqlclient)
+
 Instala todas las librerías necesarias desde el archivo requirements.txt:
 
 - pip install -r requirements.txt
 
+- sudo mysql
+- source /home/frontend1/NUAM/db_setup.sql; (colocar direccion de archivo db_setup.ql)
+- exit
 
 4️⃣ Aplicar las migraciones de la base de datos
 
@@ -85,7 +94,7 @@ http://127.0.0.1:8000/login/
 
 De la misma manera de las rutas principales seguiremos con el panel de administración:
 
-- http://127.0.0.1:8000/admin
+- http://127.0.0.1:8000/admin/
 
 - con los valores del superuser creados anteriormente iniciar sesion
 
