@@ -11,8 +11,9 @@ __pycache__/
 # Base de datos local 
 db.sqlite3
 
-# Migraciones NO ignorarlas 
-# myapp/migrations/
+# Migraciones
+*/migrations/*
+!*/migrations/__init__.py
 
 # Editor / IDE
 .vscode/
