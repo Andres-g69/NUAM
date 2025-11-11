@@ -81,6 +81,17 @@ Ejemplo:
 http://127.0.0.1:8000/login/
 
 
-8️⃣ Detener el servidor
+8️⃣Acceder a Panel de Administración
+
+De la misma manera de las rutas principales seguiremos con el panel de administración:
+
+- http://127.0.0.1:8000/admin
+
+- con los valores del superuser creados anteriormente iniciar sesion
+
+- full acceso al panel de administración del sistema
+
+
+9️⃣Detener el servidor
 
 Para detener el servidor presiona Ctrl + C en la terminal donde se esté ejecutando.
