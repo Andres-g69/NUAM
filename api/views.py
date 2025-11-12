@@ -40,6 +40,7 @@ from .serializers import (
 )
 
 from .forms import CalificacionTributariaForm
+from django.http import HttpResponse, Http404
 
 
 # =====================================================
@@ -417,11 +418,27 @@ def procesar_archivo(request):
 
 @login_required
 def descarga_archivo(request, archivo_id):
-    carga = get_object_or_404(ArchivoCarga, id=archivo_id)
-    archivo_path = carga.archivo.path
+    from .models import ArchivoCarga
+    import os
+
     try:
-        return FileResponse(open(archivo_path, 'rb'), as_attachment=True, filename=os.path.basename(archivo_path))
-    except FileNotFoundError:
-        raise Http404("El archivo no existe")
+        archivo = ArchivoCarga.objects.get(id=archivo_id)
+    except ArchivoCarga.DoesNotExist:
+        messages.error(request, "El archivo solicitado no existe en la base de datos.")
+        return redirect('api:listado_carga')
 
+    if not archivo.archivo:
+        messages.error(request, "El archivo no tiene contenido disponible para descargar.")
+        return redirect('api:listado_carga')
 
+    # 🔹 Verificar si el archivo existe físicamente
+    file_path = archivo.archivo.path
+    if not os.path.exists(file_path):
+        messages.error(request, "El archivo ya no existe en el servidor.")
+        return redirect('api:listado_carga')
+
+    # 🔹 Si existe, devolver descarga
+    with open(file_path, 'rb') as f:
+        response = HttpResponse(f.read(), content_type='application/octet-stream')
+        response['Content-Disposition'] = f'attachment; filename="{os.path.basename(file_path)}"'
+        return response
