@@ -59,6 +59,7 @@ urlpatterns = [
     path('carga/listado/', views.listado_carga_view, name='listado_carga'),
     path('carga/procesar/', views.procesar_archivo, name='archivo-carga-procesar'),
     path('cargas/descargar/<int:archivo_id>/', views.descarga_archivo, name='archivo_descargar'),
+    path("cargas/eliminar/<int:archivo_id>/", views.eliminar_archivo, name="archivo_eliminar"),
 
     path('', include(router.urls)),
 ]

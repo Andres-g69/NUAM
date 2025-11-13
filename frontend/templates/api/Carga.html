@@ -42,11 +42,12 @@
                         <th>Usuario</th>
                         <th>Fecha</th>
                         <th>Estado</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="historialCargas">
                     {% for carga in cargas %}
-                    <tr>
+                    <tr id="row-{{ carga.id }}">
                         <td>{{ carga.id }}</td>
                         <td>{{ carga.archivo.name|slice:"-30:" }}</td>
                         <td>{{ carga.usuario.username }}</td>
@@ -54,9 +55,13 @@
                         <td>{{ carga.estado }}</td>
                         <td>
                             <a class="btn" style="background:#004aad; color:white; padding:5px 10px; border-radius:5px;"
-                            href="{% url 'api:archivo_descargar' carga.id %}">
-                            Descargar
+                                href="{% url 'api:archivo_descargar' carga.id %}">
+                                Descargar
                             </a>
+                            <button class="btn eliminar-btn" data-id="{{ carga.id }}" 
+                                style="background-color: crimson; color:white; padding:5px 10px; border-radius:5px;">
+                                Eliminar
+                            </button>
                         </td>
                     </tr>
                     {% empty %}
@@ -71,6 +76,7 @@
 </div>
 
 <script>
+// Subir archivo
 document.getElementById('cargaForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const formData = new FormData(this);
@@ -83,15 +89,35 @@ document.getElementById('cargaForm').addEventListener('submit', async function(e
 
     const data = await response.json();
 
-    if(data.success) {
+    if (data.success) {
         alert("✅ Archivo cargado correctamente!");
-        location.reload();  // recarga la página para actualizar historial
+        location.reload();
     } else {
         alert("❌ Error: " + (data.error || 'No se pudo cargar'));
     }
 });
+
+// Eliminar archivo
+document.querySelectorAll('.eliminar-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+        if (!confirm("¿Seguro que deseas eliminar esta carga?")) return;
+
+        const id = btn.getAttribute('data-id');
+        const response = await fetch(`/api/cargas/eliminar/${id}/`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            alert("🗑️ Carga eliminada correctamente.");
+            document.getElementById(`row-${id}`).remove();
+        } else {
+            alert("❌ Error al eliminar: " + data.error);
+        }
+    });
+});
 </script>
 {% endblock %}
-
-
-

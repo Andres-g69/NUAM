@@ -417,6 +417,25 @@ def procesar_archivo(request):
     return Response({'success': True, 'carga': serializer.data})
 
 @login_required
+@api_view(['DELETE'])
+def eliminar_archivo(request, archivo_id):
+    try:
+        archivo = ArchivoCarga.objects.get(id=archivo_id)
+
+        # Eliminar el archivo físico
+        if archivo.archivo and os.path.exists(archivo.archivo.path):
+            os.remove(archivo.archivo.path)
+
+        registrar_auditoria(request.user, f"Eliminó archivo {archivo.archivo.name}", request, detalle="Carga Archivos")
+        archivo.delete()
+        return Response({'success': True})
+    except ArchivoCarga.DoesNotExist:
+        return Response({'error': 'El archivo no existe'}, status=404)
+    except Exception as e:
+        return Response({'error': str(e)}, status=500)
+
+
+@login_required
 def descarga_archivo(request, archivo_id):
     from .models import ArchivoCarga
     import os
