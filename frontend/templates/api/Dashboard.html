@@ -1,23 +1,76 @@
 {% extends 'api/BaseDashboard.html' %}
-
-{% block title %}Dashboard | NUAM{% endblock %}
+{% load static %}
 
 {% block content %}
-<h1>Bienvenido, {{ user.username }} 👋</h1>
-<p>Selecciona una opción del menú para comenzar.</p>
+<div class="dashboard-container">
 
-<div class="dashboard-cards">
-  <a href="{% url 'api:calificacion_list_view' %}" class="card">
-    <h3>Calificaciones</h3>
-    <p>Administra y visualiza las calificaciones tributarias registradas.</p>
-  </a>
-  <a href="{% url 'api:carga_dashboard' %}" class="card">
-    <h3>Carga</h3>
-    <p>Sube datos, documentos o archivos al sistema.</p>
-  </a>
-  <a href="{% url 'busqueda' %}" class="card">
-    <h3>Búsqueda</h3>
-    <p>Consulta y filtra información registrada.</p>
-  </a>
+    <h1 class="welcome">Bienvenido {{ user.username }}</h1>
+    <p class="subtitle">Accede a las funciones del sistema</p>
+
+    <div class="cards-grid">
+        <a href="{% url 'api:calificacion_list_view' %}" class="card">
+            <span class="icon">📊</span>
+            <h3>Calificaciones</h3>
+            <p>Administra y visualiza las calificaciones tributarias.</p>
+          </a>
+
+        <a href="{% url 'api:carga_dashboard' %}" class="card">
+            <span class="icon">📤</span>
+            <h3>Carga Masiva</h3>
+            <p>Sube archivos DJ1948, Factores y procesa lotes.</p>
+          </a>
+
+        <a href="{% url 'busqueda' %}" class="card">
+            <span class="icon">🔎</span>
+            <h3>Búsqueda Avanzada</h3>
+            <p>Consulta calificaciones por RUT y filtros.</p>
+          </a>
+    </div>
 </div>
+
+<style>
+.dashboard-container {
+    text-align: center;
+    padding: 40px 20px;
+}
+.welcome {
+    font-size: 32px;
+    margin-bottom: 5px;
+}
+.subtitle {
+    color: #777;
+    margin-bottom: 40px;
+}
+.cards-grid {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}
+.card {
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    text-decoration: none;
+    text-align: center;
+    transition: 0.2s;
+    width: 240px;
+}
+.card:hover {
+    transform: translateY(-3px);
+}
+.icon {
+    font-size: 24px;
+    display: block;
+    margin-bottom: 10px;
+}
+</style>
+
 {% endblock %}
+
+<div class="page-title">
+  <div>
+    <h1>Bienvenido, {{ user.username }} 👋</h1>
+    <p class="muted">Accede rápido a las funciones principales.</p>
+  </div>
+

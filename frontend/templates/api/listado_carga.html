@@ -1,39 +1,27 @@
 {% extends "api/BaseDashboard.html" %}
-{% load static %}
-
 {% block title %}Historial de Cargas{% endblock %}
-
 {% block content %}
-<div class="dashboard-content">
-    <h1>Historial de Cargas</h1>
+<div class="page-title">
+  <div><h1>Historial de Cargas</h1><p class="muted">Archivos subidos al sistema</p></div>
+</div>
 
-    <div style="overflow-x:auto; margin-top:10px;">
-        <table class="table">
-            <thead>
-                <tr style="background:#003366; color:white;">
-                    <th>ID</th>
-                    <th>Archivo</th>
-                    <th>Usuario</th>
-                    <th>Fecha</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for carga in cargas %}
-                <tr>
-                    <td>{{ carga.id }}</td>
-                    <td>{{ carga.archivo.name|slice:"-30:" }}</td>
-                    <td>{{ carga.usuario.username }}</td>
-                    <td>{{ carga.fecha_carga|date:"Y-m-d H:i" }}</td>
-                    <td>{{ carga.estado }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="5">No hay cargas registradas.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+<div>
+  <table class="table">
+    <thead><tr><th>ID</th><th>Archivo</th><th>Usuario</th><th>Fecha</th><th>Estado</th><th>Acción</th></tr></thead>
+    <tbody>
+      {% for carga in cargas %}
+      <tr>
+        <td>{{ carga.id }}</td>
+        <td>{{ carga.archivo.name|slice:"-30:" }}</td>
+        <td>{{ carga.usuario.username|default:"Desconocido" }}</td>
+        <td>{{ carga.fecha_carga|date:"Y-m-d H:i" }}</td>
+        <td>{{ carga.estado }}</td>
+        <td><a href="{% url 'api:archivo_descargar' carga.id %}" class="btn small">Descargar</a></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6">No hay cargas</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 {% endblock %}

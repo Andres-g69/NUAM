@@ -461,3 +461,8 @@ def descarga_archivo(request, archivo_id):
         response = HttpResponse(f.read(), content_type='application/octet-stream')
         response['Content-Disposition'] = f'attachment; filename="{os.path.basename(file_path)}"'
         return response
+
+@login_required
+def perfil_usuario(request):
+    user = request.user  # Usuario logueado
+    return render(request, 'api/perfil_usuario.html', {'user': user})

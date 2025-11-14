@@ -1,123 +1,85 @@
 {% extends "api/BaseDashboard.html" %}
-{% load static %}
-
 {% block title %}Carga Masiva{% endblock %}
 
 {% block content %}
-<div class="dashboard-content">
-
+<div class="page-title">
+  <div>
     <h1>Carga Masiva</h1>
-    <p class="text-muted small">Archivos DJ1948 y Factores</p>
+    <p class="muted">Sube archivos DJ1948 o Factores (.csv / .xlsx)</p>
+  </div>
+</div>
 
-    <!-- FORMULARIO DE CARGA -->
-    <div class="card" style="max-width: 900px; width: 100%; text-align: left;">
-        <form id="cargaForm" enctype="multipart/form-data">
-            <div class="form-group" style="margin-bottom: 20px;">
-                <label>Archivo a cargar</label>
-                <input type="file" name="archivo" accept=".csv,.xlsx" required style="width: 100%; margin-top:5px;">
-            </div>
-            <div class="form-group" style="margin-bottom: 20px;">
-                <label>Tipo de carga</label>
-                <select name="tipo_archivo" style="width: 100%; padding: 10px; margin-top:5px;">
-                    <option value="DJ1948">DJ1948 - Montos</option>
-                    <option value="FACTORES">Factores</option>
-                    <option value="OTRO">Otro</option>
-                </select>
-            </div>
-            <button class="btn" type="submit" style="background:#004aad; color:white; padding:10px 18px; border-radius:6px;">
-                Procesar archivo
-            </button>
-        </form>
+<div class="form-card">
+  <form id="cargaForm" enctype="multipart/form-data">
+    <div class="form-row">
+      <div class="field">
+        <label>Archivo</label>
+        <input type="file" name="archivo" accept=".csv,.xlsx" required>
+      </div>
+      <div style="width:180px">
+        <label>Tipo</label>
+        <select name="tipo_archivo">
+          <option value="DJ1948">DJ1948</option>
+          <option value="FACTORES">Factores</option>
+          <option value="OTRO">Otro</option>
+        </select>
+      </div>
+      <div style="align-self:flex-end">
+        <button class="btn" type="submit">Procesar archivo</button>
+      </div>
     </div>
+  </form>
+</div>
 
-    <!-- HISTORIAL DE CARGAS -->
-    <div class="card" style="max-width:900px; width:100%; margin-top:25px;">
-        <h3>Historial de Cargas</h3>
-        <div style="overflow-x:auto; margin-top:10px;">
-            <table class="table">
-                <thead>
-                    <tr style="background:#003366; color:white;">
-                        <th>ID</th>
-                        <th>Archivo</th>
-                        <th>Usuario</th>
-                        <th>Fecha</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="historialCargas">
-                    {% for carga in cargas %}
-                    <tr id="row-{{ carga.id }}">
-                        <td>{{ carga.id }}</td>
-                        <td>{{ carga.archivo.name|slice:"-30:" }}</td>
-                        <td>{{ carga.usuario.username }}</td>
-                        <td>{{ carga.fecha_carga|date:"Y-m-d H:i" }}</td>
-                        <td>{{ carga.estado }}</td>
-                        <td>
-                            <a class="btn" style="background:#004aad; color:white; padding:5px 10px; border-radius:5px;"
-                                href="{% url 'api:archivo_descargar' carga.id %}">
-                                Descargar
-                            </a>
-                            <button class="btn eliminar-btn" data-id="{{ carga.id }}" 
-                                style="background-color: crimson; color:white; padding:5px 10px; border-radius:5px;">
-                                Eliminar
-                            </button>
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="6">No hay cargas registradas.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
+<div style="margin-top:18px">
+  <h3>Historial de cargas</h3>
+  <table class="table">
+    <thead><tr><th>ID</th><th>Archivo</th><th>Usuario</th><th>Fecha</th><th>Estado</th><th>Acción</th></tr></thead>
+    <tbody>
+      {% for carga in cargas %}
+      <tr id="row-{{ carga.id }}">
+        <td>{{ carga.id }}</td>
+        <td>{{ carga.archivo.name|slice:"-30:" }}</td>
+        <td>{{ carga.usuario.username|default:"Desconocido" }}</td>
+        <td>{{ carga.fecha_carga|date:"Y-m-d H:i" }}</td>
+        <td>{{ carga.estado }}</td>
+        <td>
+          <a href="{% url 'api:archivo_descargar' carga.id %}" class="btn small">Descargar</a>
+          <button class="btn small ghost eliminar-btn" data-id="{{ carga.id }}">Eliminar</button>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6" style="text-align:center;padding:18px">No hay cargas</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 
 <script>
-// Subir archivo
-document.getElementById('cargaForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-
-    const response = await fetch("{% url 'api:archivo-carga-procesar' %}", {
-        method: "POST",
-        headers: {"X-CSRFToken": "{{ csrf_token }}"},
-        body: formData
-    });
-
-    const data = await response.json();
-
-    if (data.success) {
-        alert("✅ Archivo cargado correctamente!");
-        location.reload();
-    } else {
-        alert("❌ Error: " + (data.error || 'No se pudo cargar'));
-    }
+document.getElementById('cargaForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const fd = new FormData(this);
+  const rsp = await fetch("{% url 'api:archivo-carga-procesar' %}", {
+    method:'POST', headers:{'X-CSRFToken':'{{ csrf_token }}'}, body: fd
+  });
+  const data = await rsp.json();
+  if (data.success || data.id || data.carga) {
+    alert('✅ Archivo subido');
+    location.reload();
+  } else {
+    alert('❌ Error: ' + (data.error||''));
+  }
 });
 
-// Eliminar archivo
-document.querySelectorAll('.eliminar-btn').forEach(btn => {
-    btn.addEventListener('click', async () => {
-        if (!confirm("¿Seguro que deseas eliminar esta carga?")) return;
-
-        const id = btn.getAttribute('data-id');
-        const response = await fetch(`/api/cargas/eliminar/${id}/`, {
-            method: 'DELETE',
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}'
-            }
-        });
-
-        const data = await response.json();
-        if (data.success) {
-            alert("🗑️ Carga eliminada correctamente.");
-            document.getElementById(`row-${id}`).remove();
-        } else {
-            alert("❌ Error al eliminar: " + data.error);
-        }
+document.querySelectorAll('.eliminar-btn').forEach(btn=>{
+  btn.addEventListener('click', async ()=>{
+    if (!confirm('¿Eliminar este archivo?')) return;
+    const id = btn.dataset.id;
+    const r = await fetch(`/api/archivos/${id}/`, {
+      method: 'DELETE', headers: {'X-CSRFToken': '{{ csrf_token }}'}
     });
+    if (r.ok) { document.getElementById('row-'+id).remove(); alert('Eliminado'); }
+  });
 });
 </script>
 {% endblock %}

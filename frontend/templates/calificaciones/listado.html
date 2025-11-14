@@ -1,57 +1,31 @@
-{% extends 'api/Dashboard.html' %}
-{% load static %}
-
+{% extends 'api/BaseDashboard.html' %}
 {% block content %}
-<div class="dashboard-content">
-    <h1>Calificaciones Tributarias</h1>
-    <p>Listado completo de calificaciones registradas en el sistema.</p>
+<div class="page-title">
+  <div><h1>Calificaciones Tributarias</h1><p class="muted">Listado de calificaciones</p></div>
+  <div><a href="{% url 'api:calificacion_create_view' %}" class="btn">+ Nueva Calificación</a></div>
+</div>
 
-    <a href="{% url 'api:calificacion_create_view' %}" class="btn" 
-       style="margin-bottom: 20px; background:#003366; color:white;">
-        + Nueva Calificación
-    </a>
-
-    <div style="width: 100%; max-width: 1000px; margin-top: 20px;">
-        <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 10px;
-                      overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
-
-            <thead style="background: #003366; color: white;">
-                <tr>
-                    <th style="padding: 12px;">RUT</th>
-                    <th>Instrumento</th>
-                    <th>Tipo</th>
-                    <th>Estado</th>
-                    <th>Fecha</th>
-                    <th style="text-align:center;">Acciones</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for c in calificaciones %}
-                <tr style="border-bottom: 1px solid #eee;">
-                    <td style="padding: 12px;">{{ c.rut }}</td>
-                    <td>{{ c.instrumento }}</td>
-                    <td>{{ c.tipo }}</td>
-                    <td>{{ c.estado }}</td>
-                    <td>{{ c.fecha|date:"d/m/Y" }}</td>
-                    <td style="text-align:center;">
-                        <a href="{% url 'api:calificacion_update_view' c.id %}" 
-                           class="btn" style="padding:6px 10px;">Editar</a>
-
-                        <a href="{% url 'api:calificacion_delete_view' c.id %}" 
-                           class="btn" style="padding:6px 10px; background:#e74c3c;">
-                           Eliminar
-                        </a>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="6" style="text-align:center; padding:20px;">No hay registros.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-
-        </table>
-    </div>
+<div style="margin-top:12px">
+  <table class="table">
+    <thead><tr><th>RUT</th><th>Instrumento</th><th>Tipo</th><th>Estado</th><th>Fecha</th><th>Acciones</th></tr></thead>
+    <tbody>
+      {% for c in calificaciones %}
+      <tr>
+        <td>{{ c.rut }}</td>
+        <td>{{ c.instrumento }}</td>
+        <td>{{ c.tipo }}</td>
+        <td>{{ c.estado }}</td>
+        <td>{{ c.fecha|date:"d/m/Y" }}</td>
+        <td>
+          <a href="{% url 'api:calificacion_update_view' c.id %}" class="btn small ghost">Editar</a>
+          <a href="{% url 'api:calificacion_delete_view' c.id %}" class="btn small" style="background:#e74c3c">Eliminar</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6" style="text-align:center;padding:18px">No hay registros.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 {% endblock %}
+

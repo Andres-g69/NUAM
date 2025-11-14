@@ -1,0 +1,121 @@
+{% extends "api/BaseDashboard.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="perfil-wrapper">
+    <div class="perfil-header">
+        <div class="perfil-icon">👤</div>
+        <h1>Perfil de Usuario</h1>
+        <p class="perfil-sub">Información asociada a tu cuenta en NUAM</p>
+    </div>
+
+    <div class="perfil-card">
+        <table class="perfil-table">
+            <tr>
+                <th>Nombre de usuario</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>Correo electrónico</th>
+                <td>{{ user.email }}</td>
+            </tr>
+
+            {% if user.first_name or user.last_name %}
+            <tr>
+                <th>Nombre completo</th>
+                <td>{{ user.first_name }} {{ user.last_name }}</td>
+            </tr>
+            {% endif %}
+
+            <tr>
+                <th>Fecha de creación</th>
+                <td>{{ user.date_joined|date:"d/m/Y H:i" }}</td>
+            </tr>
+            <tr>
+                <th>Último inicio de sesión</th>
+                <td>{{ user.last_login|date:"d/m/Y H:i" }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<style>
+/* --- WRAPPER --- */
+.perfil-wrapper {
+    max-width: 750px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* --- HEADER --- */
+.perfil-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.perfil-icon {
+    font-size: 64px;
+    margin-bottom: 10px;
+}
+
+.perfil-header h1 {
+    font-size: 32px;
+    margin: 0;
+}
+
+.perfil-sub {
+    margin-top: 5px;
+    font-size: 15px;
+    color: #777;
+}
+
+/* --- CARD --- */
+.perfil-card {
+    background: #ffffff;
+    padding: 25px 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+
+/* --- TABLE --- */
+.perfil-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.perfil-table th {
+    width: 35%;
+    text-align: left;
+    padding: 14px 10px;
+    font-weight: bold;
+    background: #f4f6f8;
+    border-bottom: 1px solid #e3e6e8;
+}
+
+.perfil-table td {
+    padding: 14px 10px;
+    border-bottom: 1px solid #e3e6e8;
+}
+
+.perfil-table tr:last-child th,
+.perfil-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 600px) {
+    .perfil-card {
+        padding: 15px;
+    }
+
+    .perfil-table th,
+    .perfil-table td {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+</style>
+
+{% endblock %}
+

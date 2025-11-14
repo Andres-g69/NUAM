@@ -1,40 +1,24 @@
-{% extends 'api/Dashboard.html' %}
-{% load static %}
-
+{% extends 'api/BaseDashboard.html' %}
 {% block content %}
-<div class="dashboard-content">
-    <h1>{% if calificacion %}Editar Calificación Tributaria{% else %}Nueva Calificación Tributaria{% endif %}</h1>
+<h1>{% if calificacion %}Editar{% else %}Nueva{% endif %} Calificación</h1>
 
-
-    <div style="width: 100%; max-width: 600px; background:white; padding: 25px;
-                border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-
-        <form method="POST">
-            {% csrf_token %}
-
-            {% for field in form %}
-                <div style="margin-bottom: 15px;">
-                    <label style="display:block; margin-bottom:5px; font-weight:600;">
-                        {{ field.label }}
-                    </label>
-                    {{ field }}
-                    {% if field.errors %}
-                        <p class="form-error">{{ field.errors.0 }}</p>
-                    {% endif %}
-                </div>
-            {% endfor %}
-            {% if modo != "ver" %}
-            <button type="submit" class="btn" 
-                    style="width:100%; background:#003366; color:white;">
-                Guardar
-            </button>
-            {% endif %}
-            
-            <a href="{% url 'api:calificacion_list_view' %}" class="btn" 
-               style="width:100%; margin-top:10px; background:#777;">
-                Volver
-            </a>
-        </form>
+<div class="form-card" style="margin-top:12px">
+  <form method="POST">
+    {% csrf_token %}
+    <div style="display:flex;flex-direction:column;gap:12px">
+      {% for field in form %}
+      <div>
+        <label style="font-weight:700">{{ field.label }}</label>
+        <div style="margin-top:6px">{{ field }}</div>
+        {% if field.errors %}<div class="alert error">{{ field.errors.0 }}</div>{% endif %}
+      </div>
+      {% endfor %}
     </div>
+
+    <div style="margin-top:12px;display:flex;gap:10px">
+      {% if modo != "ver" %}<button class="btn" type="submit">Guardar</button>{% endif %}
+      <a class="btn ghost" href="{% url 'api:calificacion_list_view' %}">Volver</a>
+    </div>
+  </form>
 </div>
 {% endblock %}

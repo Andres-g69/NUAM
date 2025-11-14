@@ -1,18 +1,18 @@
-{% extends 'api/Dashboard.html' %}
-
+{% extends 'api/BaseDashboard.html' %}
 {% block content %}
-<div class="dashboard-content">
-    <div style="background:white; padding:30px; border-radius:10px; max-width:500px; margin:auto;">
-        <h2>¿Seguro que deseas eliminar esta calificación?</h2>
-        <p><strong>ID:</strong> {{ calificacion.id }}</p>
-        <p><strong>Instrumento:</strong> {{ calificacion.instrumento }}</p>
-        <p><strong>RUT:</strong> {{ calificacion.rut }}</p>
+<div style="max-width:520px;margin:0 auto">
+  <div class="form-card">
+    <h2>Eliminar calificación</h2>
+    <p class="muted">¿Seguro que quieres eliminar la calificación <strong>#{{ calificacion.id }}</strong>?</p>
 
-        <form method="POST">
-            {% csrf_token %}
-            <button type="submit" class="btn" style="background:red; color:white;">Eliminar</button>
-            <a href="{% url 'api:calificacion_list_view' %}" class="btn" style="background:#777; margin-left:10px;">Cancelar</a>
-        </form>
-    </div>
+    <form method="POST">
+      {% csrf_token %}
+      <div style="display:flex;gap:10px;margin-top:12px">
+        <button class="btn" type="submit" style="background:#e74c3c">Eliminar</button>
+        <a class="btn ghost" href="{% url 'api:calificacion_list_view' %}">Cancelar</a>
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock %}
+
