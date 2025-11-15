@@ -1,3 +1,14 @@
+⚡ Instrucciones Comunes
+
+Antes de comenzar:
+
+- Asegúrate de tener Python 3.11 o superior instalado.
+
+- Descarga e instala MySQL Server (recomendado versión 8.0) y MySQL Workbench.
+
+- Recuerda la contraseña del usuario root de MySQL durante la instalación.
+
+
 🛠️ Instalación del Sistema NUAM en Linux
 
 Sigue los pasos a continuación para instalar y ejecutar el proyecto NUAM en un entorno Linux.
@@ -84,6 +95,7 @@ Para detener el servidor presiona Ctrl + C en la terminal donde se esté ejecuta
 
 
 🪟 Instalación en Windows
+
 1️⃣ Clonar el repositorio
 
 Abre PowerShell o CMD y ejecuta:
