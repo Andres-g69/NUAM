@@ -9,7 +9,6 @@ Abre una terminal y clona el proyecto desde GitHub:
 
 - git clone https://github.com/Andres-g69/NUAM.git
 
-
 Luego entra al directorio del proyecto:
 
 - cd NUAM
@@ -26,9 +25,7 @@ Activa el entorno virtual:
 
 - source environment/bin/activate
 
-
 💡 Si al intentar usar python3 no funciona, puedes probar con python.
-
 
 3️⃣ Instalar las dependencias
 
@@ -43,7 +40,7 @@ Instala todas las librerías necesarias desde el archivo requirements.txt:
 - pip install -r requirements.txt
 
 - sudo mysql
-- source /home/frontend1/NUAM/db_setup.sql; (colocar direccion de archivo db_setup.ql)
+- source db_setup.sql;
 - exit
 
 4️⃣ Aplicar las migraciones de la base de datos
@@ -56,7 +53,7 @@ Ejecuta los siguientes comandos para crear las tablas necesarias en la base de d
 
 5️⃣ Crear un superusuario (opcional, para administración)
 
-Si deseas acceder al panel de administración de Django, crea un superusuario:
+Si deseas acceder al panel de administración de Django y Sistema, crea un superusuario:
 
 - python manage.py createsuperuser
 
@@ -76,31 +73,58 @@ Por defecto, el servidor estará disponible en:
 👉 http://127.0.0.1:8000/
 
 
-7️⃣ Acceder al sistema
+7️⃣Acceder a Panel de Administración
 
-Una vez iniciado el servidor, puedes acceder a las siguientes rutas principales:
-
-- Login: /login/
-
-- Registro: /register/
-
-- Dashboard principal: /dashboard/
-
-Ejemplo:
-http://127.0.0.1:8000/login/
+Para poder acceder a este panel debe iniciar sesion con las credenciales registradas al crear el superusuario.
 
 
-8️⃣Acceder a Panel de Administración
+8️⃣ Detener el servidor
 
-De la misma manera de las rutas principales seguiremos con el panel de administración:
-
-- http://127.0.0.1:8000/admin/
-
-- con los valores del superuser creados anteriormente iniciar sesion
-
-- full acceso al panel de administración del sistema
+Para detener el servidor presiona Ctrl + C en la terminal donde se esté ejecutando.
 
 
-9️⃣Detener el servidor
+🪟 Instalación en Windows
+1️⃣ Clonar el repositorio
+
+Abre PowerShell o CMD y ejecuta:
+
+- git clone https://github.com/Andres-g69/NUAM.git
+- cd NUAM
+
+2️⃣ Crear y activar entorno virtual
+
+- python -m venv environment
+- environment\Scripts\activate
+
+3️⃣ Instalar dependencias
+
+- pip install -r requirements.txt
+
+4️⃣ Crear la base de datos
+
+- Abre MySQL Workbench o la terminal de MySQL y ejecuta:
+- mysql -u root -p < db_setup.sql
+
+Esto creará la base de datos nuam, el usuario nuamuser y asignará los permisos necesarios.
+
+5️⃣ Aplicar migraciones de Django
+
+- python manage.py makemigrations
+- python manage.py migrate
+
+6️⃣ Crear superusuario (opcional)
+
+- python manage.py createsuperuser
+- Sigue las instrucciones en pantalla (nombre, correo y contraseña).
+
+Con este superusuario puedes acceder al panel de administración para gestionar usuarios y auditorías usando el username y contraseña.
+
+7️⃣ Ejecutar el servidor
+
+-python manage.py runserver
+
+Accede al sistema en: http://127.0.0.1:8000/
+
+8️⃣ Detener el servidor
 
 Para detener el servidor presiona Ctrl + C en la terminal donde se esté ejecutando.
