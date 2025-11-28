@@ -1,3 +1,5 @@
+Bastian Cabello y Andres Gonzalez
+
 ⚡ Instrucciones Comunes
 
 Antes de comenzar:
